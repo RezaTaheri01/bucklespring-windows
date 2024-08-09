@@ -10,3 +10,7 @@ To exit app press ctrl + esc
 
 # PS
 For more info visit https://github.com/zevv/bucklespring
+
+# Todo
+[] Stereo sound
+[] Mute feature
