@@ -2,7 +2,7 @@
  Windows version of https://github.com/zevv/bucklespring repository with a great help of ChatGPT.
 
  # Installation
- Run exe from App directory and enjoy :)
+ Run Bucklespring.exe from App directory and enjoy :)
  
  Or
  
