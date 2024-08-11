@@ -3,10 +3,11 @@
 
  # Installation
  Run exe from App directory and enjoy :)
-
- OR
  
- First install Python then install and create virtualenv:
+ Or
+ 
+ Install Python and open terminal in the main root of project, <br>
+ then install and create virtualenv:
  ```
  python -m pip install virtualenv
  ```
