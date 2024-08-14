@@ -63,6 +63,25 @@ sound_map = {
     'up': {'press': './audios/3a-0.wav', 'release': './audios/3a-1.wav'},
     'down': {'press': './audios/3b-0.wav', 'release': './audios/3b-1.wav'},
     # Add additional key mappings as needed
+    '[': {'press': './audios/21-0.wav', 'release': './audios/21-1.wav'},
+    '{': {'press': './audios/21-0.wav', 'release': './audios/21-1.wav'},
+    ']': {'press': './audios/22-0.wav', 'release': './audios/22-1.wav'},
+    '}': {'press': './audios/22-0.wav', 'release': './audios/22-1.wav'},
+    ';': {'press': './audios/23-0.wav', 'release': './audios/23-1.wav'},
+    ':': {'press': './audios/23-0.wav', 'release': './audios/23-1.wav'},
+    "'": {'press': './audios/24-0.wav', 'release': './audios/24-1.wav'},
+    '"': {'press': './audios/24-0.wav', 'release': './audios/24-1.wav'},
+    ',': {'press': './audios/27-0.wav', 'release': './audios/27-1.wav'},
+    '<': {'press': './audios/27-0.wav', 'release': './audios/27-1.wav'},
+    '.': {'press': './audios/26-0.wav', 'release': './audios/26-1.wav'},
+    '>': {'press': './audios/26-0.wav', 'release': './audios/26-1.wav'},
+    '/': {'press': './audios/25-0.wav', 'release': './audios/25-1.wav'},
+    '?': {'press': './audios/25-0.wav', 'release': './audios/25-1.wav'},
+    '-': {'press': './audios/28-0.wav', 'release': './audios/28-1.wav'},
+    '_': {'press': './audios/28-0.wav', 'release': './audios/28-1.wav'},
+    '=': {'press': './audios/29-0.wav', 'release': './audios/29-1.wav'},
+    '+': {'press': './audios/29-0.wav', 'release': './audios/29-1.wav'},
+    '*': {'press': './audios/20-0.wav', 'release': './audios/20-1.wav'},
 }
 
 
