@@ -2,6 +2,9 @@ import ctypes
 import pygame
 import keyboard
 import threading
+from tendo import singleton
+
+me = singleton.SingleInstance()
 
 # Initialize pygame mixer
 ctypes.windll.user32.ShowWindow(
@@ -138,5 +141,3 @@ keyboard.hook(on_key_event)
 print("Press keys to play sounds. Press ESC to exit.")
 keyboard.wait('ctrl + esc')
 pygame.quit()
-
-
