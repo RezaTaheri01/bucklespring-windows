@@ -122,11 +122,11 @@ def on_key_event(event):
     # Normalize key names to lowercase
     key = event.name.lower()
 
-    # Check if the event has a corresponding sound in the sound_map
-    if keyboard.is_pressed('alt') and event.name == 'm':
+    if keyboard.is_pressed('alt') and key == 'm': # a little tricky :)
         listener_active = not listener_active
         
     if listener_active:
+        # Check if the event has a corresponding sound in the sound_map
         if key in sound_map:
             # Determine if it's a key press or key release
             sound_type = 'press' if event.event_type == 'down' else 'release'
