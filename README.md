@@ -39,8 +39,8 @@ python Bucklespring.py
 ```
 
 # Attention
-To exit app press ctrl + esc
-To mute app press alt + m
+To **exit** app press ctrl + esc<br>
+To **mute** app press alt + m
 
 # Todo
 - [x] ~~Stereo sound~~ (Check out Stereo.py)
