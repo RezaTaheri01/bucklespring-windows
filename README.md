@@ -40,11 +40,12 @@ python Bucklespring.py
 
 # Attention
 To exit app press ctrl + esc
+To mute app press alt + m
 
 # Todo
 - [x] ~~Stereo sound~~ (Check out Stereo.py)
-- [ ] Mute feature
-- [ ] Imporve sounds map
+- [x] ~~Mute feature~~ (Check out .py files)
+- [ ] Improve sounds map
 
 # PS
 For more info visit https://github.com/zevv/bucklespring

@@ -7,6 +7,9 @@ me = singleton.SingleInstance()
 left_side_keys = 'qwerasdfzxcv'
 right_side_keys = "uiopjklm,<.>/?;:'\"[]\{\}"
 
+# Flag to track whether the listener is active
+listener_active = True
+
 # Initialize pygame mixer
 pygame.mixer.init()
 
@@ -101,34 +104,43 @@ def split_stereo_to_mono(sound_file):
 
     return pygame.sndarray.make_sound(left_channel), pygame.sndarray.make_sound(right_channel)
 
+
 def play_sound(sound_file, pan, duration=95):
     left_sound, right_sound = split_stereo_to_mono(sound_file)
-    
+
     # Adjust the volume according to the pan
     left_sound.set_volume(pan[0])
     right_sound.set_volume(pan[1])
-    
+
     # Play both sounds simultaneously
     left_sound.play(loops=0, maxtime=duration)
     right_sound.play(loops=0, maxtime=duration)
 
+
 def on_key_event(event):
+    global listener_active
     key = event.name.lower()
 
-    if key in sound_map:
-        sound_type = 'press' if event.event_type == 'down' else 'release'
+    # Check if the event has a corresponding sound in the sound_map
+    if keyboard.is_pressed('alt') and event.name == 'm':
+        listener_active = not listener_active
 
-        if key in left_side_keys:  # Example for left side keys
-            pan = (1.0, 0.5)  # Full left, no right
-        elif key in right_side_keys:  # Example for right side keys
-            pan = (0.5, 1.0)  # No left, full right
-        else:
-            pan = (0.5, 0.5)  # Centered
+    if listener_active:
+        if key in sound_map:
+            sound_type = 'press' if event.event_type == 'down' else 'release'
 
-        play_sound(sound_map[key][sound_type], pan)
+            if key in left_side_keys:  # Example for left side keys
+                pan = (1.0, 0.5)  # Full left, no right
+            elif key in right_side_keys:  # Example for right side keys
+                pan = (0.5, 1.0)  # No left, full right
+            else:
+                pan = (0.5, 0.5)  # Centered
+
+            play_sound(sound_map[key][sound_type], pan)
+
 
 keyboard.hook(on_key_event)
 
-print("Press keys to play sounds. Press ESC to exit.")
+print("Press keys to play sounds. Press Ctrl + ESC to exit.")
 keyboard.wait('ctrl + esc')
 pygame.quit()

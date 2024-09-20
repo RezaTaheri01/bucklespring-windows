@@ -6,6 +6,9 @@ from tendo import singleton
 
 me = singleton.SingleInstance()
 
+# Flag to track whether the listener is active
+listener_active = True
+
 # Initialize pygame mixer
 ctypes.windll.user32.ShowWindow(
     ctypes.windll.kernel32.GetConsoleWindow(), 0)  # hide
@@ -115,29 +118,34 @@ def stop_sound(left_channel, right_channel):
 
 
 def on_key_event(event):
+    global listener_active
     # Normalize key names to lowercase
     key = event.name.lower()
 
     # Check if the event has a corresponding sound in the sound_map
-    if key in sound_map:
-        # Determine if it's a key press or key release
-        sound_type = 'press' if event.event_type == 'down' else 'release'
+    if keyboard.is_pressed('alt') and event.name == 'm':
+        listener_active = not listener_active
+        
+    if listener_active:
+        if key in sound_map:
+            # Determine if it's a key press or key release
+            sound_type = 'press' if event.event_type == 'down' else 'release'
 
-        # Determine pan based on key position
-        if key in 'asdfghjkl':  # Example for left side keys
-            pan = (1.0, 0.5)  # Full left, half right
-        elif key in 'qwertyuiop':  # Example for right side keys
-            pan = (0.5, 1.0)  # Half left, full right
-        else:
-            pan = (0.5, 0.5)  # Centered
+            # Determine pan based on key position
+            if key in 'asdfghjkl':  # Example for left side keys
+                pan = (1.0, 0.5)  # Full left, half right
+            elif key in 'qwertyuiop':  # Example for right side keys
+                pan = (0.5, 1.0)  # Half left, full right
+            else:
+                pan = (0.5, 0.5)  # Centered
 
-        play_sound(sound_map[key][sound_type], pan)
+            play_sound(sound_map[key][sound_type], pan)
 
 
 # Set up a hook to capture keyboard events
 keyboard.hook(on_key_event)
 
 # Keep the script running
-print("Press keys to play sounds. Press ESC to exit.")
+print("Press keys to play sounds. Press Ctrl + ESC to exit.")
 keyboard.wait('ctrl + esc')
 pygame.quit()
