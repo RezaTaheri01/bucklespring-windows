@@ -42,8 +42,6 @@ python Bucklespring.py
 To **exit** app press ctrl + esc<br>
 To **mute** app press alt + m<br>
 
-There is a free os version that run on Mac and Linux.
-
 # Todo
 - [x] ~~Stereo sound~~ (Check out Stereo.py)
 - [x] ~~Mute feature~~ (Check out .py files)
