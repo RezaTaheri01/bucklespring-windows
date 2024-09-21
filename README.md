@@ -44,7 +44,7 @@ To **mute** app press alt + m<br>
 
 # Todo
 - [x] ~~Stereo sound~~ (Check out Stereo.py)
-- [x] ~~Mute feature~~ (Check out .py files)
+- [x] ~~Mute feature~~
 - [ ] Improve sounds map
 
 # PS
