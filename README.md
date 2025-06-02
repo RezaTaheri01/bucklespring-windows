@@ -4,7 +4,7 @@ Windows version of [Bucklespring](https://github.com/zevv/bucklespring) reposito
 
 ## 📦 Installation
 
-### Option 1: Direct Installation
+### Option 1: Without Installation
 
 1. Run `Bucklespring.exe` from the **App** directory and enjoy! 😊
 
