@@ -62,7 +62,7 @@ Windows version of [Bucklespring](https://github.com/zevv/bucklespring) reposito
 
 - [x] ~~Stereo sound~~ (Check out `Stereo.py`)
 - [x] ~~Mute feature~~
-- [ ] Improve sounds map
+- [X] ~~Improve sounds map~~
 
 ## 📚 More Information
 
