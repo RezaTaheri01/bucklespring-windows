@@ -1,3 +1,5 @@
+import os
+import json
 import ctypes
 import pygame
 import keyboard
@@ -103,13 +105,13 @@ sound_map = {
     'non_us_<': {'press': './audios/56-0.wav', 'release': './audios/56-1.wav'},
     'f11': {'press': './audios/57-0.wav', 'release': './audios/57-1.wav'},
     'f12': {'press': './audios/58-0.wav', 'release': './audios/58-1.wav'},
-    
+
     '+': {'press': './audios/62-0.wav', 'release': './audios/62-1.wav'},
     'left windows': {'press': './audios/5b-0.wav', 'release': './audios/5b-1.wav'},
     'right windows': {'press': './audios/5b-1.wav', 'release': './audios/5b-1.wav'},
     'right alt': {'press': './audios/61-0.wav', 'release': './audios/61-1.wav'},
-    'alt': {'press': './audios/61-0.wav', 'release': './audios/61-1.wav'}, 
-    'menu': {'press': './audios/63-0.wav', 'release': './audios/63-1.wav'}, 
+    'alt': {'press': './audios/61-0.wav', 'release': './audios/61-1.wav'},
+    'menu': {'press': './audios/63-0.wav', 'release': './audios/63-1.wav'},
     'shift': {'press': './audios/64-0.wav', 'release': './audios/64-1.wav'},
     'right shift': {'press': './audios/64-0.wav', 'release': './audios/64-1.wav'},
     '*': {'press': './audios/66-0.wav', 'release': './audios/66-1.wav'},
@@ -117,22 +119,26 @@ sound_map = {
     'ctrl': {'press': './audios/67-0.wav', 'release': './audios/67-1.wav'},
     'decimal': {'press': './audios/68-0.wav', 'release': './audios/68-1.wav'},
     'caps lock': {'press': './audios/69-0.wav', 'release': './audios/69-1.wav'},
-    
+
     'up': {'press': './audios/6a-0.wav', 'release': './audios/6a-1.wav'},
     'down': {'press': './audios/6b-0.wav', 'release': './audios/6b-1.wav'},
     'right': {'press': './audios/6c-0.wav', 'release': './audios/6c-1.wav'},
     'left': {'press': './audios/6d-0.wav', 'release': './audios/6d-1.wav'},
-    
+
     'num lock': {'press': './audios/6e-0.wav', 'release': './audios/6e-1.wav'},
     'print screen': {'press': './audios/6f-0.wav', 'release': './audios/6f-1.wav'},
     'unknown_7d': {'press': './audios/7d-0.wav', 'release': './audios/7d-1.wav'},
-    
+
     'unknown_ff': {'press': './audios/ff-0.wav', 'release': './audios/ff-1.wav'},
-    
+
     'pause': {'press': './audios/77-0.wav', 'release': None}
 }
 
 pressed_keys = set()  # Tracks currently pressed keys
+
+volume_rng = (0.01, 0.95)
+volume = 0.1
+config_file = os.path.join(os.path.expanduser("~"), '.keyboard_sounds_config.json')
 
 
 def play_sound(sound_file, pan, duration=95):
@@ -153,15 +159,48 @@ def stop_sound(sound):
     sound.stop()
 
 
-def on_key_event(event): 
+# Mute/unmute toggle handler
+def toggle_listener():
+    global listener_active
+    listener_active = not listener_active
+
+
+# Load saved volume
+def load_volume():
+    global volume
+    if os.path.exists(config_file):
+        try:
+            with open(config_file, 'r') as f:
+                data = json.load(f)
+                saved_volume = float(data.get('volume', volume))
+                if volume_rng[0] <= saved_volume <= volume_rng[1]:
+                    volume = saved_volume
+        except Exception as e:
+            print(f"Failed to load volume: {e}")
+
+
+# Save current volume
+def save_volume():
+    try:
+        with open(config_file, 'w') as f:
+            json.dump({'volume': volume}, f)
+    except Exception as e:
+        print(f"Failed to save volume: {e}")
+
+
+def keyboard_volume(val):
+    global volume
+    new_volume = max(volume_rng[0], min(volume_rng[1], volume + val))
+    if new_volume != volume:
+        volume = new_volume
+        save_volume()
+
+
+def on_key_event(event):
     global listener_active
     # Normalize key names to lowercase
     key = event.name.lower()
-    
-    if keyboard.is_pressed('alt') and key == 'm': # a little tricky :)
-        listener_active = not listener_active
-        return
-    
+
     # Prevent repeated actions for held keys
     if event.event_type == 'down':
         if key in pressed_keys:
@@ -169,21 +208,28 @@ def on_key_event(event):
         pressed_keys.add(key)
     elif event.event_type == 'up':
         pressed_keys.discard(key)
-        
+
     if listener_active:
         # Check if the event has a corresponding sound in the sound_map
         if key in sound_map:
             # Determine if it's a key press or key release
             sound_type = 'press' if event.event_type == 'down' else 'release'
 
-            pan = (0.5)  # Centered
+            pan = (volume)  # Centered
             play_sound(sound_map[key][sound_type], pan)
 
 
-# Set up a hook to capture keyboard events
-keyboard.hook(on_key_event)
+if __name__ == "__main__":
+    load_volume()
 
-# Keep the script running
-print("Press keys to play sounds. Press Ctrl + ESC to exit.")
-keyboard.wait('ctrl + esc')
-pygame.quit()
+    # Set up a hook to capture keyboard events
+    keyboard.hook(on_key_event)
+    # Register Alt+M as a hotkey
+    keyboard.add_hotkey('alt+m', toggle_listener)
+    keyboard.add_hotkey('alt+up', lambda: keyboard_volume(0.05))
+    keyboard.add_hotkey('alt+down', lambda: keyboard_volume(-0.05))
+
+    # Keep the script running
+    print("Press keys to play sounds. Press Ctrl + ESC to exit.")
+    keyboard.wait('ctrl + esc')
+    pygame.quit()
