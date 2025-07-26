@@ -57,6 +57,7 @@ Windows version of [Bucklespring](https://github.com/zevv/bucklespring) reposito
 
 - To **exit** the app, press `Ctrl + Esc`.
 - To **mute** the app, press `Alt + M`.
+- Increase/Decrease Key sounds, `Alt + Up Arrow/ Alt + Down Arrow`
 
 ## ✅ Todo
 
